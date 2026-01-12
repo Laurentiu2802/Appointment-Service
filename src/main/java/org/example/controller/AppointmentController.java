@@ -9,6 +9,7 @@ import org.example.business.dto.StatusUpdateRequest;
 import org.example.domain.AppointmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/appointments")
 @RequiredArgsConstructor
+@Validated
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
@@ -29,7 +31,6 @@ public class AppointmentController {
 
         log.info("Creating appointment for user: {} with roles: {}", userId, roles);
 
-        // Check if user is CAR_ENTHUSIAST
         if (!roles.contains("CAR_ENTHUSIAST")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Only car enthusiasts can create appointments");
@@ -48,7 +49,6 @@ public class AppointmentController {
 
         log.info("Mechanic {} updating appointment {} status", mechanicId, id);
 
-        // Check if user is MECHANIC
         if (!roles.contains("MECHANIC")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Only mechanics can update appointment status");
@@ -65,7 +65,6 @@ public class AppointmentController {
 
         log.info("Fetching appointments for user: {} with roles: {}", userId, roles);
 
-        // Check if user is CAR_ENTHUSIAST
         if (!roles.contains("CAR_ENTHUSIAST")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Only car enthusiasts can view their appointments");
@@ -82,7 +81,6 @@ public class AppointmentController {
 
         log.info("Fetching all appointments for mechanic: {}", mechanicId);
 
-        // Check if user is MECHANIC
         if (!roles.contains("MECHANIC")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Only mechanics can view mechanic appointments");
@@ -99,7 +97,6 @@ public class AppointmentController {
 
         log.info("Fetching pending appointments for mechanic: {}", mechanicId);
 
-        // Check if user is MECHANIC
         if (!roles.contains("MECHANIC")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Only mechanics can view pending appointments");
